@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Eddie Fabugais — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+[data-theme="dark"]{
+  --bg:#0a0a0a;
+  --bg-card:#141414;
+  --bg-hover:#1e1e1e;
+  --border:#242424;
+  --border-hl:#333;
+  --text:#ededed;
+  --text-2:#a1a1a1;
+  --text-3:#555;
+  --white:#ffffff;
+}
+[data-theme="light"]{
+  --bg:#ffffff;
+  --bg-card:#ffffff;
+  --bg-hover:#ebebeb;
+  --border:#e0e0e0;
+  --border-hl:#c8c8c8;
+  --text:#111;
+  --text-2:#555;
+  --text-3:#999;
+  --white:#111;
+}
+
+body{transition:background .3s,color .3s;background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ── PAGE ── */
+.page{max-width:1000px;margin:0 auto;padding:32px 32px 80px}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;justify-content:flex-end;margin-bottom:28px}
+.theme-pill{width:56px;height:28px;background:#2d3748;border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
+.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.theme-slider svg{width:14px;height:14px;display:none;color:#4a5568}
+[data-theme="dark"]  .theme-pill{background:#30363d}
+[data-theme="dark"]  .theme-slider{transform:translateX(28px)}
+[data-theme="dark"]  .theme-slider .icon-moon{display:block}
+[data-theme="light"] .theme-pill{background:#e2e8f0}
+[data-theme="light"] .theme-slider{transform:translateX(0)}
+[data-theme="light"] .theme-slider .icon-sun{display:block}
+
+/* ════════════════════════════════════
+   SECTION 1 — HERO: avatar left, info right
+   ════════════════════════════════════ */
+.hero{display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:center;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px}
+
+.avatar-wrap{width:140px;height:140px;border-radius:12px;overflow:hidden;border:2px solid var(--border-hl);background:var(--bg-hover);flex-shrink:0;position:relative}
+.avatar-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+.avatar-initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:600;color:var(--text-2);z-index:-1}
+
+.hero-info{}
+.hero-name-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.name{font-size:26px;font-weight:700;color:var(--white);letter-spacing:-0.4px}
+.verified{color:#4a9eff;font-size:18px}
+.location{font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.roles{font-size:14px;color:var(--text-2);margin-bottom:16px}
+.roles span+span::before{content:' \\ ';color:var(--text-3)}
+
+/* award badge — inline in the roles row */
+.hero-mid{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.award{display:inline-flex;align-items:center;gap:8px;background:var(--bg-hover);border:1px solid var(--border-hl);border-radius:8px;padding:7px 12px;transition:border-color .2s;cursor:pointer}
+.award:hover{border-color:#555}
+.award-inner{display:flex;flex-direction:column}
+.award-title{font-size:12px;font-weight:600;color:var(--text)}
+.award-sub{font-size:11px;color:var(--text-3)}
+.award-chevron{font-size:11px;color:var(--text-3);margin-left:4px}
+
+/* CTA row */
+/* CTA row */
+.cta{display:flex;align-items:center;gap:12px;margin-top:20px}
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;background:var(--bg-card);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,transform .1s,color .2s;white-space:nowrap}
+.btn:hover{background:var(--bg-hover);border-color:#555;color:var(--text)}
+.btn:active{transform:scale(0.98)}
+.btn svg{width:16px;height:16px;opacity:.8;flex-shrink:0}
+.btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn-primary:hover{background:var(--white);border-color:var(--white);color:var(--bg)}
+.social-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-social{padding:10px 14px}
+.btn-social svg{width:16px;height:16px;opacity:.6}
+.btn-social:hover svg{opacity:1}
+
+/* ════════════════════════════════════
+   SECTION CARD — generic bordered box
+   ════════════════════════════════════ */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px}
+.sec-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:18px}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-header .sec-title{margin-bottom:0}
+.view-all{font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:4px}
+.view-all:hover{color:var(--text-2)}
+
+/* ════════════════════════════════════
+   SECTION 2 — ABOUT (left) + ACCESS CARD (right)
+   ════════════════════════════════════ */
+.row-about{display:grid;grid-template-columns:1fr 350px;gap:12px;margin-bottom:12px}
+
+.about{font-size:14px;color:var(--text-2);line-height:1.85}
+.about p+p{margin-top:14px}
+
+/* DEVS ONE HUNDRED access card */
+.access-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;min-height:220px;position:relative;overflow:hidden}
+[data-theme="light"] .access-card{background:#1a1a1a;border-color:#2a2a2a}
+.access-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none}
+.ac-terminal{font-size:20px;font-weight:700;color:#ededed;font-family:'Geist Mono',monospace;line-height:1;margin-bottom:14px}
+.ac-name-block{margin-bottom:0}
+.ac-label{font-size:10px;letter-spacing:.12em;color:#666;text-transform:uppercase;margin-bottom:4px}
+.ac-name{font-size:16px;font-weight:700;color:#ededed;font-family:'Geist Mono',monospace;letter-spacing:.05em}
+.ac-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px}
+.ac-role{font-size:10px;letter-spacing:.12em;color:#555;text-transform:uppercase}
+.ac-qr{width:38px;height:38px;background:#333;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px}
+
+/* StellarPH banner */
+.stellar-banner{background:linear-gradient(135deg,#5b3fd4,#7c5ce4);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;overflow:hidden;position:relative;margin-top:0}
+.stellar-text{font-size:11px;font-weight:700;color:#fff;line-height:1.3}
+.stellar-sub{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px}
+.stellar-logo{font-size:10px;font-weight:800;color:#fff;letter-spacing:.08em;margin-left:auto;white-space:nowrap;opacity:.8}
+
+/* ════════════════════════════════════
+   SECTION 3 — TECH STACK (left wide) + EXPERIENCE (right)
+   ════════════════════════════════════ */
+.row-tech-cert{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+
+/* Tech Stack */
+.stack-group{margin-bottom:14px}
+.stack-group:last-child{margin-bottom:0}
+.stack-label{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:9px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-family:'Geist Mono',monospace;color:var(--text-2);background:var(--bg-hover);border:1px solid var(--border);border-radius:6px;padding:4px 11px;transition:border-color .15s,color .15s}
+.tag:hover{border-color:var(--border-hl);color:var(--text)}
+
+/* Experience */
+.exp-item{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
+.exp-item:last-child{border-bottom:none}
+.exp-check{width:14px;height:14px;border:1.5px solid var(--border-hl);border-radius:3px;margin-top:2px;flex-shrink:0}
+.exp-role{font-size:13px;font-weight:500;color:var(--text)}
+.exp-company{font-size:12px;color:var(--text-3);margin-top:1px}
+.exp-year{font-family:'Geist Mono',monospace;font-size:11px;color:var(--text-3);white-space:nowrap;padding-top:2px}
+
+/* ════════════════════════════════════
+   SECTION 4 — PROJECTS (left) + EXPERIENCE continues
+   The projects section sits left-wide, experience card right
+   Actually from screenshot: Projects is full-width left (with 2x2 grid), experience right
+   ════════════════════════════════════ */
+.row-proj-exp{display:grid;grid-template-columns:1fr 320px;gap:12px;margin-bottom:12px}
+
+/* Projects 2×2 grid */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.proj{display:flex;flex-direction:column;gap:4px;background:var(--bg-hover);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:background .2s,border-color .2s}
+.proj:hover{border-color:var(--border-hl)}
+.proj-name{font-size:14px;font-weight:600;color:var(--white)}
+.proj-desc{font-size:12px;color:var(--text-3)}
+.proj-url{display:inline-block;margin-top:6px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:2px 8px}
+
+/* ════════════════════════════════════
+   SECTION 5 — CERTIFICATIONS (left) + RECOMMENDATIONS (right)
+   ════════════════════════════════════ */
+.row-reco{margin-bottom:12px}
+
+.cert-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+.cert-item:last-child{border-bottom:none}
+.cert-item:hover{opacity:.75}
+.cert-name{font-size:14px;font-weight:600;color:var(--text)}
+.cert-issuer{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* Recommendations carousel */
+.reco-carousel{position:relative;overflow:hidden}
+.reco-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.reco-slide{flex:0 0 100%;padding:0 2px}
+.reco-q{font-size:13px;color:var(--text-2);line-height:1.8;font-style:italic;margin-bottom:16px}
+.reco-p{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--border)}
+.reco-av{width:30px;height:30px;border-radius:50%;background:var(--bg-hover);border:1px solid var(--border-hl);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-2);flex-shrink:0}
+.reco-name{font-size:13px;font-weight:600;color:var(--text)}
+.reco-role{font-size:11px;color:var(--text-3)}
+.reco-dots{display:flex;gap:5px;margin-top:14px}
+.reco-dot{width:6px;height:6px;border-radius:50%;background:var(--border-hl);cursor:pointer;transition:background .2s}
+.reco-dot.active{background:var(--text-2)}
+
+/* ════════════════════════════════════
+   SECTION 6 — MEMBERSHIPS + SOCIAL + SPEAKING + CONTACT (4 cols)
+   ════════════════════════════════════ */
+.row-bottom{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden}
+.bottom-col{padding:24px;border-right:1px solid var(--border)}
+.bottom-col:last-child{border-right:none}
+.bottom-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.bottom-title{font-size:13px;font-weight:600;color:var(--text-2)}
+.view-all-link{font-size:12px;color:var(--text-3);font-weight:500;transition:color .15s}
+.view-all-link:hover{color:var(--text)}
+
+.mem-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5}
+.mem-item:last-child{margin-bottom:0}
+.mem-icon{font-size:10px;color:var(--text-3);margin-top:3px;flex-shrink:0}
+
+.soc-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-2);margin-bottom:12px;transition:color .15s}
+.soc-item:hover{color:var(--text)}
+.soc-item:last-child{margin-bottom:0}
+.soc-icon{width:28px;height:28px;border-radius:50%;background:var(--bg-hover);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.soc-icon svg{width:13px;height:13px}
+
+.speak-txt{font-size:12px;color:var(--text-2);line-height:1.7;margin-bottom:14px}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;font-family:inherit;background:var(--bg-hover);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn-sm:hover{background:var(--bg);border-color:#555;color:var(--text)}
+
+.contact-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.contact-item:last-child{border-bottom:none;padding-bottom:0}
+.contact-item:first-child{padding-top:0}
+.contact-lbl{font-size:12px;color:var(--text-3);margin-bottom:2px;display:flex;align-items:center;gap:5px}
+.contact-lbl svg{width:12px;height:12px;opacity:.6}
+.contact-val{font-size:12px;font-weight:500;color:var(--text-2)}
+.contact-arr{font-size:12px;color:var(--text-3)}
+
+/* ════════════════════════════════════
+   GALLERY
+   ════════════════════════════════════ */
+.gallery-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:12px}
+.gallery-outer{position:relative;margin-top:14px}
+.gallery-track-wrap{overflow:hidden;border-radius:10px}
+.gallery-track{display:flex;gap:8px;transition:transform .4s cubic-bezier(.4,0,.2,1);will-change:transform}
+.gallery-slide{flex:0 0 calc(20% - 7px);aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--bg-hover);border:1px solid var(--border);flex-shrink:0;cursor:pointer;transition:transform .2s}
+.gallery-slide:hover{transform:scale(1.02);border-color:var(--border-hl)}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-slide .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text-3)}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border-hl);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:14px;user-select:none;transition:background .15s,color .15s}
+.gal-btn:hover{background:var(--bg-hover);color:var(--text)}
+.gal-btn:disabled{opacity:.2;cursor:default}
+.gal-btn.prev{left:-16px}.gal-btn.next{right:-16px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;cursor:pointer}
+.modal.active{display:flex}
+.modal-content{max-width:1000px;width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.modal-close{position:absolute;top:24px;right:24px;color:#fff;font-size:24px;cursor:pointer;opacity:.6;line-height:1}
+.modal-close:hover{opacity:1}
+
+.footer{padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);text-align:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:780px){
+  .page{padding:20px 16px 60px}
+  .hero{grid-template-columns:90px 1fr;gap:18px;padding:20px}
+  .avatar-wrap{width:80px;height:80px}
+  .name{font-size:20px}
+  .row-about,.row-tech-cert,.row-proj-exp,.row-reco{grid-template-columns:1fr}
+  .row-bottom{grid-template-columns:1fr 1fr}
+  .bottom-col:nth-child(2){border-right:none}
+  .bottom-col:nth-child(3){border-top:1px solid var(--border);border-right:1px solid var(--border)}
+  .bottom-col:nth-child(4){border-top:1px solid var(--border)}
+  .proj-grid{grid-template-columns:1fr}
+  .gallery-slide{flex:0 0 calc(50% - 4px)}
+  .gal-btn.prev{left:4px}.gal-btn.next{right:4px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="theme-pill" onclick="switchTheme()">
+      <div class="theme-slider">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <div class="avatar-wrap">
+      <span class="avatar-initials">EF</span>
+      <img id="avatar-img" src="uploads/nightime.png" alt="Profile">
+    </div>
+    <div class="hero-info">
+      <div class="hero-name-row">
+        <div class="name">Eddie B. Fabugais Jr.</div>
+        <!-- <span class="verified">✦</span> -->
+      </div>
+      <div class="location">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Siquijor, Philippines
+      </div>
+      <div class="roles"><span>Full Stack Developer</span></div>
+      <!-- <div class="hero-mid">
+        <a href="#" class="award">
+          <span style="font-size:14px">🏆</span>
+          <div class="award-inner">
+            <span class="award-title">Hackathon Champion</span>
+            <span class="award-sub">OpenGov Hackathon 2025</span>
+          </div>
+          <span class="award-chevron">›</span>
+        </a>
+      </div> -->
+      <div class="cta">
+        <a href="mailto:tsunahokage814@gmail.com" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Email Me
+        </a>
+        <div class="social-btns">
+          <a href="https://github.com/RareXWeeb" target="_blank" class="btn btn-social" title="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a href="https://www.facebook.com/c8nnamonn" target="_blank" class="btn btn-social" title="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/c8nnamonn/" target="_blank" class="btn btn-social" title="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.linkedin.com/in/eddie-fabugais-6495931ba/" target="_blank" class="btn btn-social" title="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ABOUT + ACCESS CARD ══ -->
+  <div class="row-about">
+    <div class="card">
+      <div class="sec-title">About</div>
+      <div class="about">
+        <p>I am a 4th-year Information Technology student and an aspiring full-stack software engineer specializing in Laravel for building robust and scalable web applications. I work with PHP and JavaScript to create efficient, user-focused digital solutions.</p>
+        <p>Throughout my academic journey, I have actively participated in hackathons, startup challenges, and various school competitions, where I applied my skills to solve real-world problems. These experiences strengthened my ability to collaborate, think critically, and develop innovative solutions under pressure.</p>
+        <p>I am continuously improving my skills by building projects and exploring new technologies, with a strong focus on becoming a proficient developer capable of creating practical and impactful systems.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-title">Experience</div>
+      <div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">BS Information Technology</div><div class="exp-company">Siquijor State College</div></div><div class="exp-year">Present</div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Intern</div><div class="exp-company">Bluebeans Systems</div></div><div class="exp-year">2024</div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Hackathons &amp; Startup Challenges</div><div class="exp-company">Participant &amp; Competitor</div></div><div class="exp-year">2021—Present</div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Senior High School</div><div class="exp-company">Siquijor State College — Computer Programming</div></div><div class="exp-year">2017</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TECH STACK + CERTIFICATIONS ══ -->
+  <div class="row-tech-cert">
+    <div class="card">
+      <div class="sec-header">
+        <div class="sec-title">Tech Stack</div>
+        <a href="techstack.html" class="view-all">View All ›</a>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Programming &amp; Core</div>
+        <div class="tags">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">Java</span><span class="tag">C++</span><span class="tag">Visual Basic</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Frameworks &amp; Runtimes</div>
+        <div class="tags">
+          <span class="tag">Laravel</span><span class="tag">Tailwind CSS</span><span class="tag">React Native</span><span class="tag">Node.js</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Database &amp; Tools</div>
+        <div class="tags">
+          <span class="tag">MySQL</span><span class="tag">Git</span><span class="tag">GitHub</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-header">
+        <div class="sec-title">Recent Certifications</div>
+        <a href="certifications.html" class="view-all">View All ›</a>
+      </div>
+      <div>
+        <a href="#" class="cert-item"><div><div class="cert-name">Paper Presenter: ICETI 2026</div><div class="cert-issuer">International Conference — Silliman University</div></div></a>
+        <a href="#" class="cert-item"><div><div class="cert-name">Brains and Breakthroughs</div><div class="cert-issuer">Pitching Competition — Bacolod City</div></div></a>
+        <a href="#" class="cert-item"><div><div class="cert-name">Ethical Issues in Computing</div><div class="cert-issuer">Ethics in the Age of AI &amp; Automation</div></div></a>
+        <a href="#" class="cert-item"><div><div class="cert-name">Professional Issues in IT</div><div class="cert-issuer">IT Professionalism &amp; Standards</div></div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RECENT PROJECTS (left 2×2) — full width card ══ -->
+  <div class="card" style="margin-bottom:12px">
+    <div class="sec-header">
+      <div class="sec-title">Recent Projects</div>
+      <a href="projects.html" class="view-all">View All ›</a>
+    </div>
+    <div class="proj-grid">
+      <div class="proj">
+        <div class="proj-name">eAssessor <a href="https://github.com/RareXWeeb/eassessor" target="_blank" style="margin-left:auto;opacity:.5"><svg style="width:14px;height:14px;display:inline" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+        <div class="proj-desc">Digital Property Services for Larena Municipality.</div>
+        <a href="https://larenaeassessor.com/" class="proj-url" target="_blank">larenaeassessor.com ›</a>
+      </div>
+      <div class="proj">
+        <div class="proj-name">El Pergentina <a href="https://github.com/RareXWeeb/hotel" target="_blank" style="margin-left:auto;opacity:.5"><svg style="width:14px;height:14px;display:inline" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+        <div class="proj-desc">Official resort website for El Pergentina Beach Resort.</div>
+        <a href="http://elpergentina.infinityfreeapp.com/" class="proj-url" target="_blank">elpergentina... ›</a>
+      </div>
+      <div class="proj">
+        <div class="proj-name">Shoeshop Bot <a href="https://github.com/RareXWeeb/shoeshop_chatbot" target="_blank" style="margin-left:auto;opacity:.5"><svg style="width:14px;height:14px;display:inline" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+        <div class="proj-desc">AI-powered chatbot for shoe store inquiries.</div>
+        <span class="proj-url">JavaScript / Node.js</span>
+      </div>
+      <div class="proj">
+        <div class="proj-name">Dalanet <a href="https://github.com/RareXWeeb/project_dalanet" target="_blank" style="margin-left:auto;opacity:.5"><svg style="width:14px;height:14px;display:inline" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+        <div class="proj-desc">Disaster-response comms platform using mesh networks for emergency connectivity.</div>
+        <span class="proj-url">React Native / Supabase</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ BOTTOM ROW: MEMBERSHIPS + SOCIAL + SPEAKING + CONTACT ══ -->
+  <div class="row-bottom">
+    <!-- Achievements & Competitions -->
+    <div class="bottom-col">
+      <div class="bottom-title-row">
+        <div class="bottom-title">Achievements &amp; Competitions</div>
+        <a href="achievements.html" class="view-all-link">View All ›</a>
+      </div>
+      <div class="mem-item">
+        <span class="mem-icon">◆</span>
+        <span>Regional Finalist — HANDA Pilipinas 2025: Innovations in Climate and Disaster Resilience</span>
+      </div>
+      <div class="mem-item">
+        <span class="mem-icon">◆</span>
+        <span>1st Runner-Up — Philippine Startup Challenge (PSC) 2023 Central Visayas Regional Pitch</span>
+      </div>
+      <div class="mem-item">
+        <span class="mem-icon">◆</span>
+        <span>Presenter — ICETI 2026: International Conference on Educational Technology and Innovation</span>
+      </div>
+      <div class="mem-item">
+        <span class="mem-icon">◆</span>
+        <span>Participant — Brains and Breakthroughs: Pitching Competition (Bacolod City)</span>
+      </div>
+    </div>
+    </div>
+
+  <!-- ══ GALLERY ══ -->
+  <div class="gallery-card">
+    <div class="sec-title">Gallery</div>
+    <div class="gallery-outer">
+      <button class="gal-btn prev" id="gal-prev" onclick="galMove(-1)">&#8592;</button>
+      <button class="gal-btn next" id="gal-next" onclick="galMove(1)">&#8594;</button>
+      <div class="gallery-track-wrap">
+        <div class="gallery-track" id="gal-track">
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/dalanet1.png" alt="Dalanet Project Work"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/dalanet2.png" alt="Dalanet Presentation"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/dasig4.png" alt="DASIG Blue Tech Awarding"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/hack2.png" alt="PSITE Hackathon In-Action"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/iceti1.png" alt="ICETI Conference Moment"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/iceti6.png" alt="ICETI Recognition"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/iceti7.png" alt="ICETI Keynote Event"></div>
+          <div class="gallery-slide" onclick="openModal(this)"><img src="uploads/startup3.png" alt="Philippine Startup Challenge Highlight"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="footer">© 2026 Eddie Fabugais Jr. All rights reserved.</div>
+  
+  <!-- Modal -->
+  <div id="galModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+</div>
+
+<script>
+  // THEME
+  const html = document.documentElement;
+  const avatarImg = document.getElementById('avatar-img');
+
+  // Initial State based on saved theme
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', currentTheme);
+  avatarImg.src = 'uploads/nightime.png';
+
+  function switchTheme(){
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  window.switchTheme = switchTheme;
+
+
+  // GALLERY CAROUSEL
+  const track = document.getElementById('gal-track');
+  const btnPrev = document.getElementById('gal-prev');
+  const btnNext = document.getElementById('gal-next');
+  const slides = track.querySelectorAll('.gallery-slide');
+  let galIdx = 0;
+  function getVis(){ return window.innerWidth <= 780 ? 2 : 5; }
+  function galTotal(){ return Math.max(0, slides.length - getVis()); }
+  function goGal(idx){
+    galIdx = Math.max(0, Math.min(idx, galTotal()));
+    const vis = getVis();
+    const w = track.parentElement.offsetWidth;
+    const gap = 8;
+    const itemW = (w - gap * (vis - 1)) / vis;
+    track.style.transform = `translateX(-${galIdx * (itemW + gap)}px)`;
+    btnPrev.disabled = galIdx === 0;
+    btnNext.disabled = galIdx >= galTotal();
+  }
+  function galMove(d){ goGal(galIdx + d); }
+  window.galMove = galMove;
+  goGal(0);
+  window.addEventListener('resize', () => goGal(Math.min(galIdx, galTotal())));
+
+  // MODAL LOGIC
+  function openModal(slide) {
+    const img = slide.querySelector('img');
+    if(!img) return;
+    document.getElementById('modalImg').src = img.src;
+    document.getElementById('galModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('galModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+</script>
+</body>
+</html>

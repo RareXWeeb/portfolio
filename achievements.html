@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Achievements &amp; Competitions — Eddie Fabugais Jr.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+[data-theme="dark"]{--bg:#0f0f0f;--bg-card:#1a1a1a;--bg-hover:#212121;--border:#2a2a2a;--border-hl:#3a3a3a;--text:#ededed;--text-2:#a1a1a1;--text-3:#666;--white:#ffffff}
+[data-theme="light"]{--bg:#f5f5f5;--bg-card:#ffffff;--bg-hover:#f0f0f0;--border:#e0e0e0;--border-hl:#c8c8c8;--text:#111111;--text-2:#555555;--text-3:#999999;--white:#111111}
+body{background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+.page{max-width:800px;margin:0 auto;padding:48px 24px 80px}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;transition:background .15s,border-color .15s,color .15s}
+.back-btn:hover{background:var(--bg-hover);border-color:var(--border-hl);color:var(--text)}
+.back-btn svg{width:13px;height:13px}
+.theme-pill{width:56px;height:28px;background:#2d3748;border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
+.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.theme-slider svg{width:14px;height:14px;display:none;color:#4a5568}
+[data-theme="dark"]  .theme-pill{background:#30363d}
+[data-theme="dark"]  .theme-slider{transform:translateX(28px)}
+[data-theme="dark"]  .theme-slider .icon-moon{display:block}
+[data-theme="light"] .theme-pill{background:#e2e8f0}
+[data-theme="light"] .theme-slider{transform:translateX(0)}
+[data-theme="light"] .theme-slider .icon-sun{display:block}
+
+.page-title{font-size:24px;font-weight:700;color:var(--white);letter-spacing:-0.4px;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--text-3);margin-bottom:32px}
+.hr{height:1px;background:var(--border);margin:28px 0}
+
+.sec-title{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:16px;letter-spacing:.02em}
+
+/* gallery grid - single column */
+.cert-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:16px}
+@media(max-width:640px){.page{padding:32px 16px 60px}}
+
+.cert-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .21s cubic-bezier(.4,0,.2,1),border-color .2s;display:flex;flex-direction:row;position:relative;align-items:stretch;min-height:260px}
+.cert-card:hover{transform:translateY(-4px);border-color:var(--border-hl)}
+.cert-img-wrap{flex:0 0 45%;background:var(--bg-hover);overflow:hidden;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border);position:relative}
+@media(max-width:640px){
+  .cert-card{flex-direction:column;min-height:auto}
+  .cert-img-wrap{flex:none;width:100%;aspect-ratio:3/2;border-right:none;border-bottom:1px solid var(--border)}
+}
+
+/* Carousel Inner */
+.card-carousel-track{display:flex;width:100%;height:100%;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.card-carousel-slide{flex:0 0 100%;height:100%}
+.card-carousel-slide img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.cert-card:hover .card-carousel-slide img{transform:scale(1.05)}
+
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;background:rgba(0,0,0,.5);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s,background .2s;z-index:10}
+.cert-card:hover .carousel-btn{opacity:1}
+.carousel-btn:hover{background:rgba(0,0,0,.8)}
+.carousel-btn.prev{left:12px}
+.carousel-btn.next{right:12px}
+.carousel-btn svg{width:16px;height:16px}
+
+.cert-info{padding:16px;flex-grow:1}
+.cert-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4}
+.cert-issuer{font-size:12px;color:var(--text-3);display:flex;flex-direction:column;gap:4px}
+.cert-date{font-size:11px;color:var(--text-3);opacity:.7;margin-top:8px}
+
+.cert-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);width:100%;transition:color .15s}
+.cert-link:hover{color:var(--white)}
+.cert-link svg{width:14px;height:14px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;cursor:pointer}
+.modal.active{display:flex}
+.modal-content{max-width:1000px;width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.modal-close{position:absolute;top:24px;right:24px;color:#fff;font-size:24px;cursor:pointer;opacity:.6}
+.modal-close:hover{opacity:1}
+
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Home
+    </a>
+    <div class="theme-pill" onclick="switchTheme()">
+      <div class="theme-slider">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-title">Achievements &amp; Competitions</div>
+  <div class="page-sub">A showcase of startup challenges, pitching competitions, and academic milestones.</div>
+
+  <!-- Featured Victories -->
+  <div class="sec-title">Featured Victories</div>
+  <div class="cert-grid">
+    <!-- PSC 2023 Consolidated Card -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/startup.png" alt="Philippine Startup Challenge Recognition"></div>
+          <div class="card-carousel-slide"><img src="uploads/startup1.png" alt="Winning the Pitch"></div>
+          <div class="card-carousel-slide"><img src="uploads/startup2.png" alt="Regional Startup Success"></div>
+          <div class="card-carousel-slide"><img src="uploads/startup3.png" alt="PSC Achievement Moment"></div>
+          <div class="card-carousel-slide"><img src="uploads/startup4.png" alt="PSC Victory Milestone"></div>
+          <div class="card-carousel-slide"><img src="uploads/startup5.png" alt="PSC Regional Honors"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">1st Runner-Up — Philippine Startup Challenge (PSC) Regional Success</div>
+        <div class="cert-issuer">
+          <strong>Team Azure | Project: "Glaucus"</strong>
+          <span>Representing Sikuijor State College in the Central Visayas Regional Pitching competition. Chosen as finalists from 247 regionwide applications.</span>
+          <p style="margin-top:8px; font-size:11px;">Members: Frequemarf Paculba Jr, Eddie Fabugais Jr, Blaire Marchan • Mentor: Mr. Christopher Sabado</p>
+        </div>
+        <div class="cert-date">Oct 13, 2023 • Cebu City</div>
+        <a href="https://www.facebook.com/siquijorstatecollege.officialpage/posts/pfbid02CjUbdPk8o2DZGopdPYGwCEo6EHvTrCXXxB61iEnUxGLtZKunEZvYsUmfd7Ph3Wsgl" target="_blank" class="cert-link" onclick="event.stopPropagation()">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          View Official Post ›
+        </a>
+      </div>
+    </div>
+
+    <!-- HANDA Pilipinas 2025 Consolidated Card -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/dalanet.png" alt="HANDA Pilipinas 2025 Recognition"></div>
+          <div class="card-carousel-slide"><img src="uploads/dalanet1.png" alt="DALANET Pitching"></div>
+          <div class="card-carousel-slide"><img src="uploads/dalanet2.png" alt="Regional Finalists Honors"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">Regional Finalist — HANDA Pilipinas: Innovations in Climate and Disaster Resilience 2025</div>
+        <div class="cert-issuer">
+          <strong>Project: "DALANET" — A Resilient Decentralized Communication Platform</strong>
+          <span>Recognized as one of the ten regional finalists in the "Brains and Breakthroughs: DRRM Idea Pitching Competition" hosted by DOST-NIR.</span>
+          <p style="margin-top:8px; font-size:11px;">Team: Eddie B. Fabugais Jr., John Lister D. Cabasag • Mentor: Engr. Josephine C. Muñasque</p>
+        </div>
+        <div class="cert-date">Oct 27–29, 2025 • Bacolod City</div>
+        <a href="https://siquijorstate.edu.ph/siquijor-state-college-earns-top-regional-finalist-honors-at-handa-pilipinas-2025/" target="_blank" class="cert-link" onclick="event.stopPropagation()">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          Read School Article ›
+        </a>
+      </div>
+    </div>
+    <!-- DASIG Blue Tech Card -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/dasig.png" alt="DASIG Blue Tech Victory"></div>
+          <div class="card-carousel-slide"><img src="uploads/dasig1.png" alt="DASIG Team Recognition"></div>
+          <div class="card-carousel-slide"><img src="uploads/dasig3.png" alt="DASIG Presentation Moment"></div>
+          <div class="card-carousel-slide"><img src="uploads/dasig4.png" alt="DASIG Awarding"></div>
+          <div class="card-carousel-slide"><img src="uploads/dasig5.png" alt="DASIG Award Certificate"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">2nd Runner-Up — Blue Tech Challenge (DASIG)</div>
+        <div class="cert-issuer">
+          <strong>Team Glaucus | Silliman University</strong>
+          <span>Awarded 2nd Runner-Up and Php 10,000 for "Blue Technology" innovation.</span>
+          <p style="margin-top:6px; font-size:11px;">Team: F. Paculba Jr., E. Fabugais Jr., B. Marchan • Mentor: Mr. C. Sabado</p>
+        </div>
+        <div class="cert-date">Sept 20, 2023 • Dumaguete City</div>
+        <a href="https://www.facebook.com/DasigCenvi/posts/pfbid02oVpgMFR5HP6pPw9qtaEE3zuAqxSsb9VEEigZ3JcUPw77ToFw22WGQ3whNcz453rVl" target="_blank" class="cert-link" onclick="event.stopPropagation()">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          View FB Post ›
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- More Milestones -->
+  <div class="sec-title">More Competitions &amp; Accomplishments</div>
+  <div class="cert-grid">
+    <!-- DOST iHub Launch Card -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/ihub.png" alt="DOST Siquijor iHub Launch"></div>
+          <div class="card-carousel-slide"><img src="uploads/ihub1.png" alt="DOST Undersecretaries at iHub Launch"></div>
+          <div class="card-carousel-slide"><img src="uploads/ihub2.png" alt="Innovation Hub Partnership"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">DOST Siquijor PSTO Launches Innovation Hub (iHub)</div>
+        <div class="cert-issuer">
+          <strong>Innovation Hub (iHub) — Baluarte, Siquijor</strong>
+          <span>Officially launched to boost grassroots innovation and startup development. Attended by DOST Undersecretaries and regional leaders to foster inter-regional research collaboration.</span>
+          <p style="margin-top:8px; font-size:11px;">Partnerships: Siquijor State College, Silliman University, and local startups.</p>
+        </div>
+        <div class="cert-date">June 25, 2025 • Siquijor PSTO</div>
+        <a href="https://www.facebook.com/DOST.Region7/posts/pfbid02d9AevaNdFRXeMnVJBNq4GjVZxeetvvrZmydjnenRdTgsPAxULbnsE7Cov55VhmRVl" target="_blank" class="cert-link" onclick="event.stopPropagation()">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          View FB Post ›
+        </a>
+      </div>
+    </div>
+    <!-- PSITE Hackathon Card -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/hack.png" alt="PSITE Provincial Hackathon Moment"></div>
+          <div class="card-carousel-slide"><img src="uploads/hack1.png" alt="PSITE Hackathon Team"></div>
+          <div class="card-carousel-slide"><img src="uploads/hack2.png" alt="PSITE Hackathon Coding"></div>
+          <div class="card-carousel-slide"><img src="uploads/hack3.png" alt="PSITE Hackathon Venue"></div>
+          <div class="card-carousel-slide"><img src="uploads/hack4.png" alt="PSITE Hackathon Participant Certificate"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">1st PSITE Central Visayas Provincial Hackathon</div>
+        <div class="cert-issuer">
+          <strong>Sponsor: JobTarget Philippines</strong>
+          <span>A high-stakes provincial competition featuring elite teams from Foundation University, Negros Oriental State University (NORSU), Silliman University, and Siquijor State College.</span>
+        </div>
+        <div class="cert-date">Provincial Competition • Central Visayas</div>
+      </div>
+    </div>
+
+    <!-- ICETI 2026 Paper Presenter -->
+    <div class="cert-card" onclick="openModalFromCarousel(this)">
+      <div class="cert-img-wrap">
+        <button class="carousel-btn prev" onclick="moveCardCarousel(this, -1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCardCarousel(this, 1, event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="card-carousel-track" data-idx="0">
+          <div class="card-carousel-slide"><img src="uploads/iceti.png" alt="ICETI 2026 Presentation"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti2.png" alt="ICETI 2026 Event Moment"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti3.png" alt="ICETI 2026 Venue"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti4.png" alt="ICETI 2026 Research Dialogue"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti5.png" alt="ICETI 2026 Academic Community"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti6.png" alt="ICETI 2026 Recognition"></div>
+          <div class="card-carousel-slide"><img src="uploads/iceti7.png" alt="ICETI 2026 Keynote Session"></div>
+        </div>
+      </div>
+      <div class="cert-info">
+        <div class="cert-title">Paper Presenter — International Conference on Educational Technology & Innovation (ICETI 2026)</div>
+        <div class="cert-issuer">
+          <strong>Title: “EASSESSOR: Digitized Document Request for Municipal Assessor's Office of Larena”</strong>
+          <span>Conference Theme: “Bringing Global Perspectives” — Presented at Silliman University, an international platform for educational technology innovators.</span>
+        </div>
+        <div class="cert-date">Feb 5–6, 2026 • Dumaguete City, Philippines</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Eddie Fabugais Jr. All rights reserved.</div>
+
+  <!-- Modal -->
+  <div id="certModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+</div>
+<script>
+  const html = document.documentElement;
+  const saved = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+
+  function switchTheme() {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  window.switchTheme = switchTheme;
+
+  // MODAL LOGIC
+  function openModal(card) {
+    const img = card.querySelector('img');
+    if(!img) return;
+    document.getElementById('modalImg').src = img.src;
+    document.getElementById('certModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function openModalFromCarousel(card) {
+    const track = card.querySelector('.card-carousel-track');
+    const idx = parseInt(track.getAttribute('data-idx'));
+    const slides = track.querySelectorAll('.card-carousel-slide img');
+    document.getElementById('modalImg').src = slides[idx].src;
+    document.getElementById('certModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('certModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.openModal = openModal;
+  window.openModalFromCarousel = openModalFromCarousel;
+  window.closeModal = closeModal;
+
+  // CARD CAROUSEL LOGIC
+  function moveCardCarousel(btn, delta, event) {
+    event.stopPropagation();
+    const card = btn.closest('.cert-card');
+    const track = card.querySelector('.card-carousel-track');
+    const slides = track.querySelectorAll('.card-carousel-slide');
+    let idx = parseInt(track.getAttribute('data-idx'));
+    
+    idx += delta;
+    if(idx < 0) idx = slides.length - 1;
+    if(idx >= slides.length) idx = 0;
+    
+    track.setAttribute('data-idx', idx);
+    track.style.transform = `translateX(-${idx * 100}%)`;
+  }
+  window.moveCardCarousel = moveCardCarousel;
+</script>
+</body>
+</html>

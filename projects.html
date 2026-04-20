@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projects — Eddie Fabugais Jr.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+[data-theme="dark"]{--bg:#0f0f0f;--bg-card:#1a1a1a;--bg-hover:#212121;--border:#2a2a2a;--border-hl:#3a3a3a;--text:#ededed;--text-2:#a1a1a1;--text-3:#666;--white:#ffffff}
+[data-theme="light"]{--bg:#f5f5f5;--bg-card:#ffffff;--bg-hover:#f0f0f0;--border:#e0e0e0;--border-hl:#c8c8c8;--text:#111111;--text-2:#555555;--text-3:#999999;--white:#111111}
+body{background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+.page{max-width:672px;margin:0 auto;padding:48px 24px 80px}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;transition:background .15s,border-color .15s,color .15s}
+.back-btn:hover{background:var(--bg-hover);border-color:var(--border-hl);color:var(--text)}
+.back-btn svg{width:13px;height:13px}
+.theme-pill{width:56px;height:28px;background:#2d3748;border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
+.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.theme-slider svg{width:14px;height:14px;display:none;color:#4a5568}
+[data-theme="dark"]  .theme-pill{background:#30363d}
+[data-theme="dark"]  .theme-slider{transform:translateX(28px)}
+[data-theme="dark"]  .theme-slider .icon-moon{display:block}
+[data-theme="light"] .theme-pill{background:#e2e8f0}
+[data-theme="light"] .theme-slider{transform:translateX(0)}
+[data-theme="light"] .theme-slider .icon-sun{display:block}
+
+.page-title{font-size:24px;font-weight:700;color:var(--white);letter-spacing:-0.4px;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--text-3);margin-bottom:32px}
+.hr{height:1px;background:var(--border);margin:28px 0}
+
+/* Filter tabs */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-3);cursor:pointer;transition:background .15s,border-color .15s,color .15s;font-family:inherit}
+.filter-btn:hover{background:var(--bg-hover);color:var(--text);border-color:var(--border-hl)}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* Project cards — bigger on this page */
+.proj-grid{display:flex;flex-direction:column;gap:12px}
+.proj-card{display:flex;gap:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;transition:background .15s,border-color .15s}
+.proj-card:hover{background:var(--bg-hover);border-color:var(--border-hl)}
+.proj-thumb{width:160px;height:100px;background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0}
+.proj-thumb img{width:100%;height:100%;object-fit:cover}
+.proj-left{flex:1;min-width:0}
+.proj-name{font-size:16px;font-weight:600;color:var(--white);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.proj-desc{font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px}
+.proj-tag{font-size:11px;font-family:'Geist Mono',monospace;color:var(--text-3);background:var(--bg-hover);border:1px solid var(--border);border-radius:5px;padding:3px 10px}
+.proj-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;flex-shrink:0}
+.proj-links{display:flex;gap:12px;align-items:center}
+.proj-link{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--bg-hover);border:1px solid var(--border);border-radius:6px;color:var(--text-3);transition:color .15s,border-color .15s}
+.proj-link:hover{color:var(--text);border-color:var(--border-hl)}
+.proj-link svg{width:16px;height:16px}
+.proj-status{font-size:10px;font-family:'Geist Mono',monospace;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:100px;border:1px solid}
+.proj-status.live{color:#4ade80;border-color:rgba(74,222,128,.25);background:rgba(74,222,128,.06)}
+.proj-status.wip {color:#facc15;border-color:rgba(250,204,21,.25);background:rgba(250,204,21,.06)}
+
+@media(max-width:600px){
+  .proj-card{flex-direction:column;gap:16px}
+  .proj-thumb{width:100%;height:140px}
+}
+
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);text-align:center}
+
+/* filter hide */
+.proj-card[data-cat].hidden{display:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Home
+    </a>
+    <div class="theme-pill" onclick="switchTheme()">
+      <div class="theme-slider">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-title">Projects</div>
+  <div class="page-sub">A collection of web applications and digital solutions I've developed.</div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('web', this)">Web</button>
+    <button class="filter-btn" onclick="filter('system', this)">Systems</button>
+  </div>
+
+  <div class="proj-grid" id="proj-grid">
+
+    <div class="proj-card" data-cat="web system">
+      <div class="proj-thumb"><img src="uploads/easeesorpic.png" alt="eAssessor"></div>
+      <div class="proj-left">
+        <div class="proj-name">eAssessor <span class="proj-status live">Live</span></div>
+        <div class="proj-desc">Digital Property Services for Larena Municipality, streamlining document requests and certifications. This system improves the efficiency of municipal property assessments and public records management.</div>
+        <div class="proj-tags"><span class="proj-tag">Laravel</span><span class="proj-tag">PHP</span><span class="proj-tag">MySQL</span><span class="proj-tag">Tailwind CSS</span></div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-links">
+          <a href="https://github.com/RareXWeeb/eassessor" target="_blank" class="proj-link" title="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="https://larenaeassessor.com/" target="_blank" class="proj-link" title="Visit Site">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="web">
+      <div class="proj-thumb"><img src="uploads/hotel.png" alt="El Pergentina"></div>
+      <div class="proj-left">
+        <div class="proj-name">El Pergentina <span class="proj-status live">Live</span></div>
+        <div class="proj-desc">Official website for El Pergentina Holiday Beach Resort, Siquijor. A fully responsive website showcasing resort amenities, rooms, and booking information.</div>
+        <div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JavaScript</span><span class="proj-tag">PHP</span></div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-links">
+          <a href="https://github.com/RareXWeeb/hotel" target="_blank" class="proj-link" title="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="http://elpergentina.infinityfreeapp.com/" target="_blank" class="proj-link" title="Visit Site">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="web">
+      <div class="proj-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px">👟</div>
+      <div class="proj-left">
+        <div class="proj-name">Shoeshop Chatbot <span class="proj-status live">Live</span></div>
+        <div class="proj-desc">AI-powered chatbot for a shoe store, assisting customers with product inquiries, sizing, and availability. Built with Node.js and modern web standards. [JS: 47.9%, CSS: 34.2%, HTML: 17.9%]</div>
+        <div class="proj-tags"><span class="proj-tag">Node.js</span><span class="proj-tag">JavaScript</span><span class="proj-tag">CSS</span><span class="proj-tag">HTML</span></div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-links">
+          <a href="https://github.com/RareXWeeb/shoeshop_chatbot" target="_blank" class="proj-link" title="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="mobile">
+      <div class="proj-thumb"><img src="uploads/dalanet.png" alt="Project Dalanet"></div>
+      <div class="proj-left">
+        <div class="proj-name">Project Dalanet <span class="proj-status wip">WIP</span></div>
+        <div class="proj-desc">Project DALANET is a disaster-response communication platform designed to work even when regular networks fail. Using Bluetooth and Wi-Fi Direct, it creates a decentralized mesh network for sharing messages, GPS locations, and status reports without internet or cellular signal. Its goal is to improve rescue operations and community resilience during the critical first 72 hours of a disaster.</div>
+        <div class="proj-tags"><span class="proj-tag">React Native</span><span class="proj-tag">Tailwind</span><span class="proj-tag">Supabase</span></div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-links">
+          <a href="https://github.com/RareXWeeb/project_dalanet" target="_blank" class="proj-link" title="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">© 2026 Eddie Fabugais Jr. All rights reserved.</div>
+</div>
+<script>
+  const html = document.documentElement;
+  const saved = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+  function switchTheme() {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  window.switchTheme = switchTheme;
+
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.proj-card').forEach(card => {
+      const cats = card.dataset.cat || '';
+      card.classList.toggle('hidden', cat !== 'all' && !cats.includes(cat));
+    });
+  }
+  window.filter = filter;
+</script>
+</body>
+</html>

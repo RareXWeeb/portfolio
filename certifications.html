@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Certifications — Eddie Fabugais Jr.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+[data-theme="dark"]{--bg:#0f0f0f;--bg-card:#1a1a1a;--bg-hover:#212121;--border:#2a2a2a;--border-hl:#3a3a3a;--text:#ededed;--text-2:#a1a1a1;--text-3:#666;--white:#ffffff}
+[data-theme="light"]{--bg:#f5f5f5;--bg-card:#ffffff;--bg-hover:#f0f0f0;--border:#e0e0e0;--border-hl:#c8c8c8;--text:#111111;--text-2:#555555;--text-3:#999999;--white:#111111}
+body{background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+.page{max-width:672px;margin:0 auto;padding:48px 24px 80px}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;transition:background .15s,border-color .15s,color .15s}
+.back-btn:hover{background:var(--bg-hover);border-color:var(--border-hl);color:var(--text)}
+.back-btn svg{width:13px;height:13px}
+.theme-pill{width:56px;height:28px;background:#2d3748;border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
+.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.theme-slider svg{width:14px;height:14px;display:none;color:#4a5568}
+[data-theme="dark"]  .theme-pill{background:#30363d}
+[data-theme="dark"]  .theme-slider{transform:translateX(28px)}
+[data-theme="dark"]  .theme-slider .icon-moon{display:block}
+[data-theme="light"] .theme-pill{background:#e2e8f0}
+[data-theme="light"] .theme-slider{transform:translateX(0)}
+[data-theme="light"] .theme-slider .icon-sun{display:block}
+
+.page-title{font-size:24px;font-weight:700;color:var(--white);letter-spacing:-0.4px;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--text-3);margin-bottom:32px}
+.hr{height:1px;background:var(--border);margin:28px 0}
+
+.sec-title{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:16px;letter-spacing:.02em}
+
+/* gallery grid */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:640px){.cert-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.cert-grid{grid-template-columns:1fr}}
+.cert-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .21s cubic-bezier(.4,0,.2,1),border-color .2s}
+.cert-card:hover{transform:translateY(-4px);border-color:var(--border-hl)}
+.cert-img-wrap{aspect-ratio:1.414/1;background:var(--bg-hover);overflow:hidden;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.cert-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.cert-card:hover .cert-img-wrap img{transform:scale(1.05)}
+.cert-info{padding:12px 14px}
+.cert-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.4}
+.cert-issuer{font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:4px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;cursor:pointer}
+.modal.active{display:flex}
+.modal-content{max-width:1000px;width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.modal-close{position:absolute;top:24px;right:24px;color:#fff;font-size:24px;cursor:pointer;opacity:.6}
+.modal-close:hover{opacity:1}
+
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Home
+    </a>
+    <div class="theme-pill" onclick="switchTheme()">
+      <div class="theme-slider">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-title">Certifications</div>
+  <div class="page-sub">Official credentials and professional training I've completed.</div>
+
+  <!-- Networking & IoT -->
+  <div class="sec-title">Networking &amp; IoT</div>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Networking_Basics_certificate_ebfabugais2017-siquijorstate-edu-ph_3e0e3792-4b97-4df3-8a88-a2e199d73011.png" alt="Networking Basics"></div>
+      <div class="cert-info">
+        <div class="cert-title">Networking Basics</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/_certificate_ebfabugais2017-siquijorstate-edu-ph_fb9db9b0-2427-46b5-8eea-c63c304ba7b7.png" alt="Networking Devices"></div>
+      <div class="cert-info">
+        <div class="cert-title">Networking Devices and Initial Configuration</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Computer_Hardware_Basics_certificate_ebfabugais2017-siquijorstate-edu-ph_1b3f8351-0160-4715-9f62-6d4dc1e57134.png" alt="Hardware Basics"></div>
+      <div class="cert-info">
+        <div class="cert-title">Computer Hardware Basics</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Exploring_IoT_with_Cisco_Packet_Tracer_certificate_ebfabugais2017-siquijorstate-edu-ph_e426c65b-2e8d-4274-bba7-2ef1bd1b3948.png" alt="Exploring IoT"></div>
+      <div class="cert-info">
+        <div class="cert-title">Exploring IoT with Cisco Packet Tracer</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Exploring_Networking_with_Cisco_Packet_Tracer_certificate_ebfabugais2017-siquijorstate-edu-ph_19fd9fa5-c9b2-418a-9024-8c7768a5cd70.png" alt="Exploring Networking"></div>
+      <div class="cert-info">
+        <div class="cert-title">Exploring Networking with Cisco Packet Tracer</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Getting_Started_with_Cisco_Packet_Tracer_certificate_ebfabugais2017-siquijorstate-edu-ph_6e65c5ca-bd52-4293-81ae-3a5a1023fc66.png" alt="Getting Started"></div>
+      <div class="cert-info">
+        <div class="cert-title">Getting Started with Cisco Packet Tracer</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Introduction_to_Packet_Tracer_certificate_ebfabugais2017-siquijorstate-edu-ph_6bd31fed-0c16-4ce5-8ce8-3e074610b150.png" alt="Intro to Packet Tracer"></div>
+      <div class="cert-info">
+        <div class="cert-title">Introduction to Packet Tracer</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- IT Support & Cybersecurity -->
+  <div class="sec-title">IT Support &amp; Cyber Security</div>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Eddie_DTI_GoogleCertificate.png" alt="Foundations of Cybersecurity"></div>
+      <div class="cert-info">
+        <div class="cert-title">Foundations of Cybersecurity</div>
+        <div class="cert-issuer">Google / Coursera</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Eddie_DTI_GoogleCertificate (1).png" alt="Technical Support Fundamentals"></div>
+      <div class="cert-info">
+        <div class="cert-title">Technical Support Fundamentals</div>
+        <div class="cert-issuer">Google / Coursera</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Eddie_DTI_GoogleCertificate1.png" alt="Play It Safe"></div>
+      <div class="cert-info">
+        <div class="cert-title">Play It Safe: Manage Security Risks</div>
+        <div class="cert-issuer">Google / Coursera</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- Professional & Ethical Workshops -->
+  <div class="sec-title">Professional &amp; Ethical Workshops</div>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Training1.jpg" alt="Ethical Issues"></div>
+      <div class="cert-info">
+        <div class="cert-title">Ethical Issues in Computing: Ethics in the Age of AI &amp; Automation</div>
+        <div class="cert-issuer">Workshop Certification</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Training2.jpg" alt="Social Issues"></div>
+      <div class="cert-info">
+        <div class="cert-title">Social Issues in Computing: Digital Citizenship &amp; Online Responsibility</div>
+        <div class="cert-issuer">Workshop Certification</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Training3.jpg" alt="Professional Issues"></div>
+      <div class="cert-info">
+        <div class="cert-title">Professional Issues: IT Professionalism, Standards &amp; Industry Expectations</div>
+        <div class="cert-issuer">Workshop Certification</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Training4.jpg" alt="Legal Issues"></div>
+      <div class="cert-info">
+        <div class="cert-title">Legal Issues in Computing</div>
+        <div class="cert-issuer">Workshop Certification</div>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/Fabugais_Training5.jpg" alt="Capstone Workshop"></div>
+      <div class="cert-info">
+        <div class="cert-title">Capstone Workshop</div>
+        <div class="cert-issuer">Workshop Certification</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- Competitions & Startup Challenges -->
+  <div class="sec-title">Competitions &amp; Startup Challenges</div>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/pitching.jpg" alt="Pitching Competition"></div>
+      <div class="cert-info">
+        <div class="cert-title">Brains and Breakthroughs: Pitching Competition</div>
+        <div class="cert-issuer">Participant — SMX Convention Center, Bacolod City</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- Conferences & Research -->
+  <div class="sec-title">Conferences &amp; Research</div>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-img-wrap"><img src="uploads/easssessor.png" alt="ICETI 2026"></div>
+      <div class="cert-info">
+        <div class="cert-title">Paper Presenter: ICETI 2026</div>
+        <div class="cert-issuer">International Conference on Educational Technology — Silliman University</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Eddie Fabugais Jr. All rights reserved.</div>
+
+  <!-- Modal -->
+  <div id="certModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+</div>
+<script>
+  const html = document.documentElement;
+  const saved = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+
+  function switchTheme() {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  window.switchTheme = switchTheme;
+
+  function openModal(card) {
+    const src = card.querySelector('img').src;
+    document.getElementById('modalImg').src = src;
+    document.getElementById('certModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('certModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+</script>
+</body>
+</html>
