@@ -33,7 +33,7 @@ html{scroll-behavior:smooth}
   --white:#111;
 }
 
-body{transition:background .3s,color .3s;background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{transition:background .3s,color .3s;background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 
@@ -66,8 +66,8 @@ img{display:block;max-width:100%}
 .hero-name-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .name{font-size:26px;font-weight:700;color:var(--white);letter-spacing:-0.4px}
 .verified{color:#4a9eff;font-size:18px}
-.location{font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:4px;margin-bottom:10px}
-.roles{font-size:14px;color:var(--text-2);margin-bottom:16px}
+.location{font-size:14px;color:var(--text-3);display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.roles{font-size:15px;color:var(--text-2);margin-bottom:16px}
 .roles span+span::before{content:' \\ ';color:var(--text-3)}
 
 /* award badge — inline in the roles row */
@@ -75,14 +75,14 @@ img{display:block;max-width:100%}
 .award{display:inline-flex;align-items:center;gap:8px;background:var(--bg-hover);border:1px solid var(--border-hl);border-radius:8px;padding:7px 12px;transition:border-color .2s;cursor:pointer}
 .award:hover{border-color:#555}
 .award-inner{display:flex;flex-direction:column}
-.award-title{font-size:12px;font-weight:600;color:var(--text)}
-.award-sub{font-size:11px;color:var(--text-3)}
-.award-chevron{font-size:11px;color:var(--text-3);margin-left:4px}
+.award-title{font-size:13px;font-weight:600;color:var(--text)}
+.award-sub{font-size:12px;color:var(--text-3)}
+.award-chevron{font-size:12px;color:var(--text-3);margin-left:4px}
 
 /* CTA row */
 /* CTA row */
 .cta{display:flex;align-items:center;gap:12px;margin-top:20px}
-.btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;background:var(--bg-card);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,transform .1s,color .2s;white-space:nowrap}
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;background:var(--bg-card);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,transform .1s,color .2s;white-space:nowrap}
 .btn:hover{background:var(--bg-hover);border-color:#555;color:var(--text)}
 .btn:active{transform:scale(0.98)}
 .btn svg{width:16px;height:16px;opacity:.8;flex-shrink:0}
@@ -97,10 +97,10 @@ img{display:block;max-width:100%}
    SECTION CARD — generic bordered box
    ════════════════════════════════════ */
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px}
-.sec-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:18px}
+.sec-title{font-size:18px;font-weight:700;color:var(--white);margin-bottom:18px}
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .sec-header .sec-title{margin-bottom:0}
-.view-all{font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:4px}
+.view-all{font-size:14px;color:var(--text-3);display:flex;align-items:center;gap:4px}
 .view-all:hover{color:var(--text-2)}
 
 /* ════════════════════════════════════
@@ -108,7 +108,7 @@ img{display:block;max-width:100%}
    ════════════════════════════════════ */
 .row-about{display:grid;grid-template-columns:1fr 350px;gap:12px;margin-bottom:12px}
 
-.about{font-size:14px;color:var(--text-2);line-height:1.85}
+.about{font-size:15px;color:var(--text-2);line-height:1.85}
 .about p+p{margin-top:14px}
 
 /* DEVS ONE HUNDRED access card */
@@ -117,17 +117,17 @@ img{display:block;max-width:100%}
 .access-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none}
 .ac-terminal{font-size:20px;font-weight:700;color:#ededed;font-family:'Geist Mono',monospace;line-height:1;margin-bottom:14px}
 .ac-name-block{margin-bottom:0}
-.ac-label{font-size:10px;letter-spacing:.12em;color:#666;text-transform:uppercase;margin-bottom:4px}
-.ac-name{font-size:16px;font-weight:700;color:#ededed;font-family:'Geist Mono',monospace;letter-spacing:.05em}
+.ac-label{font-size:12px;letter-spacing:.12em;color:#666;text-transform:uppercase;margin-bottom:4px}
+.ac-name{font-size:18px;font-weight:700;color:#ededed;font-family:'Geist Mono',monospace;letter-spacing:.05em}
 .ac-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px}
-.ac-role{font-size:10px;letter-spacing:.12em;color:#555;text-transform:uppercase}
+.ac-role{font-size:12px;letter-spacing:.12em;color:#555;text-transform:uppercase}
 .ac-qr{width:38px;height:38px;background:#333;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px}
 
 /* StellarPH banner */
 .stellar-banner{background:linear-gradient(135deg,#5b3fd4,#7c5ce4);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;overflow:hidden;position:relative;margin-top:0}
-.stellar-text{font-size:11px;font-weight:700;color:#fff;line-height:1.3}
-.stellar-sub{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px}
-.stellar-logo{font-size:10px;font-weight:800;color:#fff;letter-spacing:.08em;margin-left:auto;white-space:nowrap;opacity:.8}
+.stellar-text{font-size:12px;font-weight:700;color:#fff;line-height:1.3}
+.stellar-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
+.stellar-logo{font-size:11px;font-weight:800;color:#fff;letter-spacing:.08em;margin-left:auto;white-space:nowrap;opacity:.8}
 
 /* ════════════════════════════════════
    SECTION 3 — TECH STACK (left wide) + EXPERIENCE (right)
@@ -137,18 +137,18 @@ img{display:block;max-width:100%}
 /* Tech Stack */
 .stack-group{margin-bottom:14px}
 .stack-group:last-child{margin-bottom:0}
-.stack-label{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:9px}
+.stack-label{font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:9px}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-size:12px;font-family:'Geist Mono',monospace;color:var(--text-2);background:var(--bg-hover);border:1px solid var(--border);border-radius:6px;padding:4px 11px;transition:border-color .15s,color .15s}
+.tag{font-size:13px;font-family:'Geist Mono',monospace;color:var(--text-2);background:var(--bg-hover);border:1px solid var(--border);border-radius:6px;padding:4px 11px;transition:border-color .15s,color .15s}
 .tag:hover{border-color:var(--border-hl);color:var(--text)}
 
 /* Experience */
 .exp-item{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
 .exp-item:last-child{border-bottom:none}
 .exp-check{width:14px;height:14px;border:1.5px solid var(--border-hl);border-radius:3px;margin-top:2px;flex-shrink:0}
-.exp-role{font-size:13px;font-weight:500;color:var(--text)}
-.exp-company{font-size:12px;color:var(--text-3);margin-top:1px}
-.exp-year{font-family:'Geist Mono',monospace;font-size:11px;color:var(--text-3);white-space:nowrap;padding-top:2px}
+.exp-role{font-size:14px;font-weight:500;color:var(--text)}
+.exp-company{font-size:13px;color:var(--text-3);margin-top:1px}
+.exp-year{font-family:'Geist Mono',monospace;font-size:12px;color:var(--text-3);white-space:nowrap;padding-top:2px}
 
 /* ════════════════════════════════════
    SECTION 4 — PROJECTS (left) + EXPERIENCE continues
@@ -161,9 +161,9 @@ img{display:block;max-width:100%}
 .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .proj{display:flex;flex-direction:column;gap:4px;background:var(--bg-hover);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:background .2s,border-color .2s}
 .proj:hover{border-color:var(--border-hl)}
-.proj-name{font-size:14px;font-weight:600;color:var(--white)}
-.proj-desc{font-size:12px;color:var(--text-3)}
-.proj-url{display:inline-block;margin-top:6px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:2px 8px}
+.proj-name{font-size:15px;font-weight:600;color:var(--white)}
+.proj-desc{font-size:13px;color:var(--text-3)}
+.proj-url{display:inline-block;margin-top:6px;font-family:'Geist Mono',monospace;font-size:12px;color:var(--text-3);background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:2px 8px}
 
 /* ════════════════════════════════════
    SECTION 5 — CERTIFICATIONS (left) + RECOMMENDATIONS (right)
@@ -173,18 +173,18 @@ img{display:block;max-width:100%}
 .cert-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
 .cert-item:last-child{border-bottom:none}
 .cert-item:hover{opacity:.75}
-.cert-name{font-size:14px;font-weight:600;color:var(--text)}
-.cert-issuer{font-size:12px;color:var(--text-3);margin-top:2px}
+.cert-name{font-size:15px;font-weight:600;color:var(--text)}
+.cert-issuer{font-size:13px;color:var(--text-3);margin-top:2px}
 
 /* Recommendations carousel */
 .reco-carousel{position:relative;overflow:hidden}
 .reco-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
 .reco-slide{flex:0 0 100%;padding:0 2px}
-.reco-q{font-size:13px;color:var(--text-2);line-height:1.8;font-style:italic;margin-bottom:16px}
+.reco-q{font-size:14px;color:var(--text-2);line-height:1.8;font-style:italic;margin-bottom:16px}
 .reco-p{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--border)}
-.reco-av{width:30px;height:30px;border-radius:50%;background:var(--bg-hover);border:1px solid var(--border-hl);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-2);flex-shrink:0}
-.reco-name{font-size:13px;font-weight:600;color:var(--text)}
-.reco-role{font-size:11px;color:var(--text-3)}
+.reco-av{width:30px;height:30px;border-radius:50%;background:var(--bg-hover);border:1px solid var(--border-hl);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-2);flex-shrink:0}
+.reco-name{font-size:14px;font-weight:600;color:var(--text)}
+.reco-role{font-size:12px;color:var(--text-3)}
 .reco-dots{display:flex;gap:5px;margin-top:14px}
 .reco-dot{width:6px;height:6px;border-radius:50%;background:var(--border-hl);cursor:pointer;transition:background .2s}
 .reco-dot.active{background:var(--text-2)}
@@ -196,13 +196,13 @@ img{display:block;max-width:100%}
 .bottom-col{padding:24px;border-right:1px solid var(--border)}
 .bottom-col:last-child{border-right:none}
 .bottom-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.bottom-title{font-size:13px;font-weight:600;color:var(--text-2)}
-.view-all-link{font-size:12px;color:var(--text-3);font-weight:500;transition:color .15s}
+.bottom-title{font-size:14px;font-weight:600;color:var(--text-2)}
+.view-all-link{font-size:13px;color:var(--text-3);font-weight:500;transition:color .15s}
 .view-all-link:hover{color:var(--text)}
 
-.mem-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5}
+.mem-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-2);margin-bottom:12px;line-height:1.5}
 .mem-item:last-child{margin-bottom:0}
-.mem-icon{font-size:10px;color:var(--text-3);margin-top:3px;flex-shrink:0}
+.mem-icon{font-size:12px;color:var(--text-3);margin-top:3px;flex-shrink:0}
 
 .soc-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-2);margin-bottom:12px;transition:color .15s}
 .soc-item:hover{color:var(--text)}
@@ -210,17 +210,17 @@ img{display:block;max-width:100%}
 .soc-icon{width:28px;height:28px;border-radius:50%;background:var(--bg-hover);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .soc-icon svg{width:13px;height:13px}
 
-.speak-txt{font-size:12px;color:var(--text-2);line-height:1.7;margin-bottom:14px}
-.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;font-family:inherit;background:var(--bg-hover);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.speak-txt{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:14px}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:13px;font-weight:500;font-family:inherit;background:var(--bg-hover);border:1px solid var(--border-hl);color:var(--text-2);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
 .btn-sm:hover{background:var(--bg);border-color:#555;color:var(--text)}
 
 .contact-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
 .contact-item:last-child{border-bottom:none;padding-bottom:0}
 .contact-item:first-child{padding-top:0}
-.contact-lbl{font-size:12px;color:var(--text-3);margin-bottom:2px;display:flex;align-items:center;gap:5px}
+.contact-lbl{font-size:13px;color:var(--text-3);margin-bottom:2px;display:flex;align-items:center;gap:5px}
 .contact-lbl svg{width:12px;height:12px;opacity:.6}
-.contact-val{font-size:12px;font-weight:500;color:var(--text-2)}
-.contact-arr{font-size:12px;color:var(--text-3)}
+.contact-val{font-size:13px;font-weight:500;color:var(--text-2)}
+.contact-arr{font-size:13px;color:var(--text-3)}
 
 /* ════════════════════════════════════
    GALLERY
@@ -245,7 +245,7 @@ img{display:block;max-width:100%}
 .modal-close{position:absolute;top:24px;right:24px;color:#fff;font-size:24px;cursor:pointer;opacity:.6;line-height:1}
 .modal-close:hover{opacity:1}
 
-.footer{padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);text-align:center}
+.footer{padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text-3);text-align:center}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -368,7 +368,7 @@ img{display:block;max-width:100%}
       </div>
     </div>
     <div class="card">
-      <div class="sec-title">Experience</div>
+      <div class="sec-title">School Experience</div>
       <div>
         <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">BS Information Technology</div><div class="exp-company">Siquijor State College</div></div><div class="exp-year">Present</div></div>
         <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Intern</div><div class="exp-company">Bluebeans Systems</div></div><div class="exp-year">2024</div></div>
