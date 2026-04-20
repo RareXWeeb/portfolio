@@ -229,7 +229,7 @@ img{display:block;max-width:100%}
 .gallery-outer{position:relative;margin-top:14px}
 .gallery-track-wrap{overflow:hidden;border-radius:10px}
 .gallery-track{display:flex;gap:8px;transition:transform .4s cubic-bezier(.4,0,.2,1);will-change:transform}
-.gallery-slide{flex:0 0 calc(20% - 7px);aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--bg-hover);border:1px solid var(--border);flex-shrink:0;cursor:pointer;transition:transform .2s}
+.gallery-slide{flex:0 0 calc(25% - 6px);aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--bg-hover);border:1px solid var(--border);flex-shrink:0;cursor:pointer;transition:transform .2s}
 .gallery-slide:hover{transform:scale(1.02);border-color:var(--border-hl)}
 .gallery-slide img{width:100%;height:100%;object-fit:cover;display:block}
 .gallery-slide .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text-3)}
@@ -264,7 +264,7 @@ img{display:block;max-width:100%}
   .bottom-col:nth-child(4){border-top:1px solid var(--border)}
   
   .proj-grid{grid-template-columns:1fr 1fr}
-  .gallery-slide{flex:0 0 calc(33.333% - 6px)}
+  .gallery-slide{flex:0 0 calc(50% - 4px)}
 }
 
 @media(max-width:580px){
@@ -272,7 +272,7 @@ img{display:block;max-width:100%}
   .row-bottom{grid-template-columns:1fr}
   .bottom-col{border-right:none !important;border-bottom:1px solid var(--border)}
   .bottom-col:last-child{border-bottom:none}
-  .gallery-slide{flex:0 0 calc(50% - 4px)}
+  .gallery-slide{flex:0 0 100%}
 }
 
 @media(max-width:480px){
@@ -534,9 +534,9 @@ img{display:block;max-width:100%}
   const slides = track.querySelectorAll('.gallery-slide');
   let galIdx = 0;
   function getVis(){ 
-    if(window.innerWidth <= 580) return 2;
-    if(window.innerWidth <= 780) return 3;
-    return 5; 
+    if(window.innerWidth <= 580) return 1;
+    if(window.innerWidth <= 780) return 2;
+    return 4; 
   }
   function galTotal(){ return Math.max(0, slides.length - getVis()); }
   function goGal(idx){
