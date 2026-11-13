@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<script>
+  (function(){
+    var saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  })();
+</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Eddie Fabugais — Portfolio</title>
@@ -20,6 +28,10 @@ html{scroll-behavior:smooth}
   --text-2:#a1a1a1;
   --text-3:#555;
   --white:#ffffff;
+  --pill-bg:#30363d;
+  --slider-x:28px;
+  --icon-sun-op:0;
+  --icon-moon-op:1;
 }
 [data-theme="light"]{
   --bg:#ffffff;
@@ -31,9 +43,26 @@ html{scroll-behavior:smooth}
   --text-2:#555;
   --text-3:#999;
   --white:#111;
+  --pill-bg:#e2e8f0;
+  --slider-x:0px;
+  --icon-sun-op:1;
+  --icon-moon-op:0;
 }
 
 body{transition:background .3s,color .3s;background:var(--bg);color:var(--text);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Disable independent CSS transition during video-synchronized playback */
+html.is-animating body,
+html.is-animating .theme-pill,
+html.is-animating .theme-slider,
+html.is-animating .card,
+html.is-animating .hero,
+html.is-animating .btn,
+html.is-animating a,
+html.is-animating div {
+  transition: none !important;
+}
+
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 
@@ -42,15 +71,11 @@ img{display:block;max-width:100%}
 
 /* ── TOPBAR ── */
 .topbar{display:flex;justify-content:flex-end;margin-bottom:28px}
-.theme-pill{width:56px;height:28px;background:#2d3748;border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
-.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
-.theme-slider svg{width:14px;height:14px;display:none;color:#4a5568}
-[data-theme="dark"]  .theme-pill{background:#30363d}
-[data-theme="dark"]  .theme-slider{transform:translateX(28px)}
-[data-theme="dark"]  .theme-slider .icon-moon{display:block}
-[data-theme="light"] .theme-pill{background:#e2e8f0}
-[data-theme="light"] .theme-slider{transform:translateX(0)}
-[data-theme="light"] .theme-slider .icon-sun{display:block}
+.theme-pill{width:56px;height:28px;background:var(--pill-bg, #30363d);border-radius:4px;cursor:pointer;position:relative;padding:3px;transition:background .3s}
+.theme-slider{width:22px;height:22px;background:#fff;border-radius:3px;position:absolute;left:3px;top:3px;display:flex;align-items:center;justify-content:center;transform:translateX(var(--slider-x, 28px));transition:transform .3s;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.theme-slider svg{width:14px;height:14px;color:#4a5568}
+.theme-slider .icon-sun{opacity:var(--icon-sun-op, 0);display:block;transition:opacity .3s}
+.theme-slider .icon-moon{opacity:var(--icon-moon-op, 1);display:block;position:absolute;transition:opacity .3s}
 
 /* ════════════════════════════════════
    SECTION 1 — HERO: avatar left, info right
@@ -58,7 +83,10 @@ img{display:block;max-width:100%}
 .hero{display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:center;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px}
 
 .avatar-wrap{width:140px;height:140px;border-radius:12px;overflow:hidden;border:2px solid var(--border-hl);background:var(--bg-hover);flex-shrink:0;position:relative}
-.avatar-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.avatar-wrap img,
+.avatar-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:inherit}
+.avatar-wrap video{opacity:0;pointer-events:none}
+.avatar-wrap video.is-playing{opacity:1}
 
 .avatar-initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:600;color:var(--text-2);z-index:-1}
 
@@ -67,8 +95,9 @@ img{display:block;max-width:100%}
 .name{font-size:26px;font-weight:700;color:var(--white);letter-spacing:-0.4px}
 .verified{color:#4a9eff;font-size:18px}
 .location{font-size:14px;color:var(--text-3);display:flex;align-items:center;gap:4px;margin-bottom:10px}
-.roles{font-size:15px;color:var(--text-2);margin-bottom:16px}
-.roles span+span::before{content:' \\ ';color:var(--text-3)}
+.roles{font-size:15px;color:var(--text-2);margin-bottom:16px;line-height:1.6}
+.roles span{white-space:nowrap}
+.roles .role-sep{color:var(--text-3);margin:0 8px;font-weight:400;white-space:normal}
 
 /* award badge — inline in the roles row */
 .hero-mid{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
@@ -143,7 +172,7 @@ img{display:block;max-width:100%}
 .tag:hover{border-color:var(--border-hl);color:var(--text)}
 
 /* Experience */
-.exp-item{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
+.exp-item{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
 .exp-item:last-child{border-bottom:none}
 .exp-check{width:14px;height:14px;border:1.5px solid var(--border-hl);border-radius:3px;margin-top:2px;flex-shrink:0}
 .exp-role{font-size:14px;font-weight:500;color:var(--text)}
@@ -239,11 +268,25 @@ img{display:block;max-width:100%}
 .gal-btn.prev{left:-16px}.gal-btn.next{right:-16px}
 
 /* modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;user-select:none}
 .modal.active{display:flex}
-.modal-content{max-width:1000px;width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 48px rgba(0,0,0,.5)}
-.modal-close{position:absolute;top:24px;right:24px;color:#fff;font-size:24px;cursor:pointer;opacity:.6;line-height:1}
-.modal-close:hover{opacity:1}
+.modal-box{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:1000px;max-height:90vh}
+.modal-content{max-width:100%;max-height:82vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 48px rgba(0,0,0,.6);transition:opacity .18s ease;cursor:default}
+.modal-close{position:absolute;top:20px;right:24px;color:#fff;font-size:26px;cursor:pointer;opacity:.7;line-height:1;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);transition:background .2s,opacity .2s;z-index:1010}
+.modal-close:hover{opacity:1;background:rgba(255,255,255,.25)}
+.modal-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1010;transition:background .2s,transform .15s,opacity .2s;backdrop-filter:blur(8px)}
+.modal-nav:hover{background:rgba(255,255,255,.28);transform:translateY(-50%) scale(1.08)}
+.modal-nav:active{transform:translateY(-50%) scale(0.95)}
+.modal-nav.prev{left:24px}
+.modal-nav.next{right:24px}
+.modal-counter{margin-top:12px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Geist Mono',monospace;letter-spacing:.06em}
+
+@media(max-width:640px){
+  .modal-nav{width:38px;height:38px;font-size:16px}
+  .modal-nav.prev{left:10px}
+  .modal-nav.next{right:10px}
+  .modal-close{top:12px;right:12px;width:34px;height:34px;font-size:22px}
+}
 
 .footer{padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text-3);text-align:center}
 
@@ -309,6 +352,7 @@ img{display:block;max-width:100%}
     <div class="avatar-wrap">
       <span class="avatar-initials">EF</span>
       <img id="avatar-img" src="uploads/nightime.png" alt="Profile">
+      <video id="avatar-video" muted playsinline preload="auto" disablePictureInPicture aria-hidden="true"></video>
     </div>
     <div class="hero-info">
       <div class="hero-name-row">
@@ -319,7 +363,13 @@ img{display:block;max-width:100%}
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
         Siquijor, Philippines
       </div>
-      <div class="roles"><span>Full Stack Developer</span></div>
+      <div class="roles">
+        <span>Full-Stack Web Developer</span>
+        <span class="role-sep">|</span>
+        <span>AI Content Creator</span>
+        <span class="role-sep">|</span>
+        <span>Video Editor</span>
+      </div>
       <!-- <div class="hero-mid">
         <a href="#" class="award">
           <span style="font-size:14px">🏆</span>
@@ -363,21 +413,21 @@ img{display:block;max-width:100%}
       <div class="sec-title">About</div>
 
 <div class="about">
-  <p>I am an Information Technology graduate and a Full-Stack Web Developer specializing in Laravel and React.js. With experience in PHP, JavaScript, and modern web development technologies, I build scalable, efficient, and user-friendly web applications that deliver practical solutions to real-world problems.</p>
+  <p>I am an Information Technology graduate, Full-Stack Web Developer, AI Content Creator, and Video Editor. I specialize in developing scalable, user-friendly web applications using Laravel, React.js, PHP, and JavaScript, combining technical expertise with creative problem-solving to deliver practical digital solutions.</p>
 
-  <p>During my academic journey, I actively participated in hackathons, startup challenges, and various competitions, where I applied my technical skills to develop innovative solutions. These experiences strengthened my problem-solving abilities, teamwork, adaptability, and ability to work effectively under pressure.</p>
+  <p>Beyond software development, I am passionate about AI-powered content creation, cinematic storytelling, and video editing. I create engaging digital content using AI image and video generation tools, develop compelling narratives, and refine visual sequences through editing, pacing, transitions, and sound to produce polished videos for online audiences.</p>
 
-  <p>I am passionate about software development and continuously expanding my expertise through hands-on projects and emerging technologies. I strive to create reliable, maintainable, and impactful digital solutions while continuously improving my skills as a Full-Stack Web Developer.</p>
+  <p>Throughout my academic journey, I participated in hackathons, startup challenges, and technology competitions that strengthened my collaboration, adaptability, and problem-solving skills. I continue to expand my knowledge of software development, artificial intelligence, and digital media production, with the goal of creating innovative, meaningful, and impactful experiences.</p>
 </div>
 
     </div>
     <div class="card">
-      <div class="sec-title">School Jouney</div>
+      <div class="sec-title">School Journey</div>
       <div>
-        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">BS Information Technology</div><div class="exp-company">Siquijor State College</div></div><div class="exp-year">Present</div></div>
-        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Intern</div><div class="exp-company">Bluebeans Systems</div></div><div class="exp-year">2024</div></div>
-        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Hackathons &amp; Startup Challenges</div><div class="exp-company">Participant &amp; Competitor</div></div><div class="exp-year">2021—Present</div></div>
-        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Senior High School</div><div class="exp-company">Siquijor State College — Computer Programming</div></div><div class="exp-year">2017</div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">BS Information Technology</div><div class="exp-company">Siquijor State College</div></div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Intern</div><div class="exp-company">Bluebeans Systems</div></div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Hackathons &amp; Startup Challenges</div><div class="exp-company">Participant &amp; Competitor</div></div></div>
+        <div class="exp-item"><div class="exp-check"></div><div><div class="exp-role">Senior High School</div><div class="exp-company">Siquijor State College — Computer Programming</div></div></div>
       </div>
     </div>
   </div>
@@ -398,13 +448,26 @@ img{display:block;max-width:100%}
       <div class="stack-group">
         <div class="stack-label">Frameworks &amp; Runtimes</div>
         <div class="tags">
-          <span class="tag">Laravel</span><span class="tag">Tailwind CSS</span><span class="tag">React Native</span><span class="tag">Node.js</span>
+          <span class="tag">Laravel</span><span class="tag">Tailwind CSS</span><span class="tag">React.js</span><span class="tag">React Native</span><span class="tag">Node.js</span>
         </div>
       </div>
       <div class="stack-group">
         <div class="stack-label">Database &amp; Tools</div>
         <div class="tags">
           <span class="tag">MySQL</span><span class="tag">Git</span><span class="tag">GitHub</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">AI &amp; Creative Production</div>
+        <div class="tags">
+          <span class="tag">AI Content Creation</span>
+          <span class="tag">AI Image Generation</span>
+          <span class="tag">AI Video Generation</span>
+          <span class="tag">AI-Assisted Storytelling</span>
+          <span class="tag">Video Editing</span>
+          <span class="tag">Cinematic Video Production</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Social Media Content Creation</span>
         </div>
       </div>
     </div>
@@ -415,10 +478,11 @@ img{display:block;max-width:100%}
         <a href="certifications.html" class="view-all">View All ›</a>
       </div>
       <div>
-        <a href="#" class="cert-item"><div><div class="cert-name">Paper Presenter: ICETI 2026</div><div class="cert-issuer">International Conference — Silliman University</div></div></a>
-        <a href="#" class="cert-item"><div><div class="cert-name">Brains and Breakthroughs</div><div class="cert-issuer">Pitching Competition — Bacolod City</div></div></a>
-        <a href="#" class="cert-item"><div><div class="cert-name">Ethical Issues in Computing</div><div class="cert-issuer">Ethics in the Age of AI &amp; Automation</div></div></a>
-        <a href="#" class="cert-item"><div><div class="cert-name">Professional Issues in IT</div><div class="cert-issuer">IT Professionalism &amp; Standards</div></div></a>
+        <a href="certifications.html" class="cert-item"><div><div class="cert-name">Civil Service Examination (Professional Level)</div><div class="cert-issuer">Civil Service Commission — Passed (81.67% Rating)</div></div></a>
+        <a href="certifications.html" class="cert-item"><div><div class="cert-name">Paper Presenter: ICETI 2026</div><div class="cert-issuer">International Conference — Silliman University</div></div></a>
+        <a href="certifications.html" class="cert-item"><div><div class="cert-name">Brains and Breakthroughs</div><div class="cert-issuer">Pitching Competition — Bacolod City</div></div></a>
+        <a href="certifications.html" class="cert-item"><div><div class="cert-name">Ethical Issues in Computing</div><div class="cert-issuer">Ethics in the Age of AI &amp; Automation</div></div></a>
+        <a href="certifications.html" class="cert-item"><div><div class="cert-name">Professional Issues in IT</div><div class="cert-issuer">IT Professionalism &amp; Standards</div></div></a>
       </div>
     </div>
   </div>
@@ -506,27 +570,513 @@ img{display:block;max-width:100%}
   <div class="footer">© 2026 Eddie Fabugais Jr. All rights reserved.</div>
   
   <!-- Modal -->
-  <div id="galModal" class="modal" onclick="closeModal()">
-    <span class="modal-close">&times;</span>
-    <img class="modal-content" id="modalImg">
+  <div id="galModal" class="modal" onclick="closeModal(event)">
+    <span class="modal-close" onclick="closeModal(event)" title="Close">&times;</span>
+    <button class="modal-nav prev" id="modal-prev" onclick="modalNav(-1, event)" aria-label="Previous image" title="Previous">&#8592;</button>
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <img class="modal-content" id="modalImg" alt="Gallery Image">
+      <div class="modal-counter" id="modalCounter"></div>
+    </div>
+    <button class="modal-nav next" id="modal-next" onclick="modalNav(1, event)" aria-label="Next image" title="Next">&#8594;</button>
   </div>
 </div>
 
 <script>
-  // THEME
+  // ══════════════════════════════════════════
+  // PORTRAIT & THEME TRANSITION CONFIGURATION
+  // ══════════════════════════════════════════
+  const PORTRAIT_CONFIG = {
+    video: "uploads/daytime.mp4",
+    daytimeImage: "daytime.png",
+    nighttimeImage: "nightime.png",
+
+    transitions: {
+      toDark: {
+        start: 0,
+        end: 5
+      },
+      toLight: {
+        start: 5,
+        end: 10
+      }
+    }
+  };
+  window.PORTRAIT_CONFIG = PORTRAIT_CONFIG;
+
+  const THEME_TRANSITIONS = {
+    lightToDark: {
+      videoStart: 0,
+      videoEnd: 5,
+      themeStart: 0,
+      themeEnd: 1
+    },
+
+    darkToLight: {
+      videoStart: 5,
+      videoEnd: 10,
+      themeStart: 1,
+      themeEnd: 0
+    }
+  };
+  window.THEME_TRANSITIONS = THEME_TRANSITIONS;
+
+  // Exact color definitions matching portfolio light and dark themes
+  const THEME_PALETTE = {
+    light: {
+      bg: [255, 255, 255],        // #ffffff
+      bgCard: [255, 255, 255],    // #ffffff
+      bgHover: [235, 235, 235],   // #ebebeb
+      border: [224, 224, 224],    // #e0e0e0
+      borderHl: [200, 200, 200],  // #c8c8c8
+      text: [17, 17, 17],         // #111111
+      text2: [85, 85, 85],        // #555555
+      text3: [153, 153, 153],     // #999999
+      white: [17, 17, 17],        // #111111
+      pillBg: [226, 232, 240],    // #e2e8f0
+      sliderX: 0
+    },
+    dark: {
+      bg: [10, 10, 10],           // #0a0a0a
+      bgCard: [20, 20, 20],       // #141414
+      bgHover: [30, 30, 30],      // #1e1e1e
+      border: [36, 36, 36],       // #242424
+      borderHl: [51, 51, 51],     // #333333
+      text: [237, 237, 237],      // #ededed
+      text2: [161, 161, 161],     // #a1a1a1
+      text3: [85, 85, 85],        // #555555
+      white: [255, 255, 255],     // #ffffff
+      pillBg: [48, 54, 61],       // #30363d
+      sliderX: 28
+    }
+  };
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function lerpColor(c1, c2, t) {
+    const r = Math.round(lerp(c1[0], c2[0], t));
+    const g = Math.round(lerp(c1[1], c2[1], t));
+    const b = Math.round(lerp(c1[2], c2[2], t));
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Smooth cinematic easing matching physical sunglasses motion:
+  // Starts subtly, transitions progressively through middle, and lands gently
+  function easeCinematic(p) {
+    const clamped = Math.min(1, Math.max(0, p));
+    return clamped * clamped * (3 - 2 * clamped);
+  }
+
+  // Ensures text readability and contrast across the entire transition curve
+  function getTextT(t) {
+    if (t <= 0.44) {
+      return 0.08 * (t / 0.44);
+    }
+    if (t >= 0.56) {
+      return 0.92 + 0.08 * ((t - 0.56) / 0.44);
+    }
+    const k = (t - 0.44) / 0.12;
+    return 0.08 + 0.84 * (k * k * (3 - 2 * k));
+  }
+
+  function applyThemeProgress(progress) {
+    const t = easeCinematic(progress); // 0 = fully light, 1 = fully dark
+    const pLight = THEME_PALETTE.light;
+    const pDark = THEME_PALETTE.dark;
+
+    const bg = lerpColor(pLight.bg, pDark.bg, t);
+    const bgCard = lerpColor(pLight.bgCard, pDark.bgCard, t);
+    const bgHover = lerpColor(pLight.bgHover, pDark.bgHover, t);
+    const border = lerpColor(pLight.border, pDark.border, t);
+    const borderHl = lerpColor(pLight.borderHl, pDark.borderHl, t);
+
+    const textT = getTextT(t);
+    const text = lerpColor(pLight.text, pDark.text, textT);
+    const text2 = lerpColor(pLight.text2, pDark.text2, textT);
+    const text3 = lerpColor(pLight.text3, pDark.text3, textT);
+    const white = lerpColor(pLight.white, pDark.white, textT);
+
+    const pillBg = lerpColor(pLight.pillBg, pDark.pillBg, t);
+    const sliderX = lerp(pLight.sliderX, pDark.sliderX, t);
+    const iconSunOp = Math.max(0, Math.min(1, 1 - t * 1.5));
+    const iconMoonOp = Math.max(0, Math.min(1, (t - 0.33) * 1.5));
+
+    html.classList.add('is-animating');
+    html.style.setProperty('--bg', bg);
+    html.style.setProperty('--bg-card', bgCard);
+    html.style.setProperty('--bg-hover', bgHover);
+    html.style.setProperty('--border', border);
+    html.style.setProperty('--border-hl', borderHl);
+    html.style.setProperty('--text', text);
+    html.style.setProperty('--text-2', text2);
+    html.style.setProperty('--text-3', text3);
+    html.style.setProperty('--white', white);
+    html.style.setProperty('--pill-bg', pillBg);
+    html.style.setProperty('--slider-x', sliderX.toFixed(2) + 'px');
+    html.style.setProperty('--icon-sun-op', iconSunOp.toFixed(3));
+    html.style.setProperty('--icon-moon-op', iconMoonOp.toFixed(3));
+  }
+  window.applyThemeProgress = applyThemeProgress;
+
+  function clearThemeOverrides(finalTheme) {
+    html.classList.remove('is-animating');
+    html.setAttribute('data-theme', finalTheme);
+    localStorage.setItem('theme', finalTheme);
+
+    const props = [
+      '--bg', '--bg-card', '--bg-hover', '--border', '--border-hl',
+      '--text', '--text-2', '--text-3', '--white',
+      '--pill-bg', '--slider-x', '--icon-sun-op', '--icon-moon-op'
+    ];
+    for (const prop of props) {
+      html.style.removeProperty(prop);
+    }
+  }
+
+  function resolveAssetPath(assetPath) {
+    if (!assetPath) return '';
+    if (/^(?:[a-z]+:)?\/\//i.test(assetPath) || assetPath.startsWith('data:')) {
+      return assetPath;
+    }
+    let clean = assetPath.replace(/^(\.\/|\/)+/, '');
+    if (!clean.startsWith('uploads/')) {
+      clean = 'uploads/' + clean;
+    }
+    try {
+      return new URL(clean, document.baseURI || window.location.href).href;
+    } catch (e) {
+      return clean;
+    }
+  }
+
+  const daytimeUrl = resolveAssetPath(PORTRAIT_CONFIG.daytimeImage);
+  const nighttimeUrl = resolveAssetPath(PORTRAIT_CONFIG.nighttimeImage);
+  const videoUrl = resolveAssetPath(PORTRAIT_CONFIG.video);
+
+  // Preload static portraits into browser memory
+  const preloadDay = new Image();
+  preloadDay.src = daytimeUrl;
+  const preloadNight = new Image();
+  preloadNight.src = nighttimeUrl;
+
   const html = document.documentElement;
   const avatarImg = document.getElementById('avatar-img');
+  const avatarVideo = document.getElementById('avatar-video');
 
-  // Initial State based on saved theme
+  // Initial State: display the appropriate PNG immediately without playing transition
   const currentTheme = localStorage.getItem('theme') || 'dark';
   html.setAttribute('data-theme', currentTheme);
-  avatarImg.src = 'uploads/nightime.png';
+  avatarImg.src = currentTheme === 'dark' ? nighttimeUrl : daytimeUrl;
 
-  function switchTheme(){
-    const current = html.getAttribute('data-theme');
+  let videoFailed = false;
+  let currentTransitionToken = 0;
+  let activeRvfcId = null;
+  let activeRafId = null;
+
+  if (avatarVideo) {
+    avatarVideo.muted = true;
+    avatarVideo.defaultMuted = true;
+    avatarVideo.playsInline = true;
+    avatarVideo.src = videoUrl;
+    avatarVideo.style.opacity = '0';
+    avatarVideo.load();
+
+    avatarVideo.addEventListener('error', () => {
+      videoFailed = true;
+      avatarVideo.style.opacity = '0';
+      avatarVideo.classList.remove('is-playing');
+      const theme = html.getAttribute('data-theme') || 'dark';
+      clearThemeOverrides(theme);
+      avatarImg.src = theme === 'dark' ? nighttimeUrl : daytimeUrl;
+    });
+
+    avatarVideo.addEventListener('loadedmetadata', () => {
+      if (videoFailed) return;
+      const theme = html.getAttribute('data-theme') || 'dark';
+      // Pre-seek in background to the start position of the anticipated next toggle
+      const targetStart = theme === 'dark' ? PORTRAIT_CONFIG.transitions.toLight.start : PORTRAIT_CONFIG.transitions.toDark.start;
+      try {
+        avatarVideo.currentTime = targetStart;
+      } catch (e) {}
+    }, { once: true });
+  }
+
+  function waitForFramePaint(video, callback) {
+    let fired = false;
+    const finish = () => {
+      if (!fired) {
+        fired = true;
+        callback();
+      }
+    };
+
+    if ('requestVideoFrameCallback' in video) {
+      try {
+        video.requestVideoFrameCallback(() => finish());
+        setTimeout(finish, 80);
+        return;
+      } catch (e) {}
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(finish);
+    });
+  }
+
+  function prepareVideoStart(video, targetTime, onReady) {
+    let completed = false;
+    function finish() {
+      if (!completed) {
+        completed = true;
+        onReady();
+      }
+    }
+
+    function doSeek() {
+      if (Math.abs(video.currentTime - targetTime) < 0.04) {
+        waitForFramePaint(video, finish);
+        return;
+      }
+
+      let seekedDone = false;
+      const onSeeked = () => {
+        if (seekedDone) return;
+        seekedDone = true;
+        video.removeEventListener('seeked', onSeeked);
+        waitForFramePaint(video, finish);
+      };
+
+      video.addEventListener('seeked', onSeeked, { once: true });
+      setTimeout(() => {
+        if (!seekedDone) {
+          seekedDone = true;
+          video.removeEventListener('seeked', onSeeked);
+          finish();
+        }
+      }, 500);
+
+      try {
+        video.currentTime = targetTime;
+      } catch (e) {
+        finish();
+      }
+    }
+
+    if (video.readyState < 2) {
+      const onReadyState = () => {
+        video.removeEventListener('canplay', onReadyState);
+        video.removeEventListener('loadeddata', onReadyState);
+        doSeek();
+      };
+      video.addEventListener('canplay', onReadyState, { once: true });
+      video.addEventListener('loadeddata', onReadyState, { once: true });
+      setTimeout(() => {
+        if (video.readyState < 2 && !completed) {
+          finish();
+        }
+      }, 800);
+    } else {
+      doSeek();
+    }
+  }
+
+  function playTransition(nextTheme) {
+    const transitionId = ++currentTransitionToken;
+
+    if (activeRvfcId !== null && avatarVideo && 'cancelVideoFrameCallback' in avatarVideo) {
+      try { avatarVideo.cancelVideoFrameCallback(activeRvfcId); } catch (e) {}
+      activeRvfcId = null;
+    }
+    if (activeRafId !== null) {
+      cancelAnimationFrame(activeRafId);
+      activeRafId = null;
+    }
+
+    const isToDark = nextTheme === 'dark';
+    const trans = isToDark ? PORTRAIT_CONFIG.transitions.toDark : PORTRAIT_CONFIG.transitions.toLight;
+    const startTime = trans.start;
+    const endTime = trans.end;
+    const targetImgUrl = isToDark ? nighttimeUrl : daytimeUrl;
+    const sourceImgUrl = isToDark ? daytimeUrl : nighttimeUrl;
+
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion || videoFailed || !avatarVideo) {
+      if (avatarVideo) {
+        avatarVideo.style.opacity = '0';
+        avatarVideo.classList.remove('is-playing');
+        try { avatarVideo.pause(); } catch (e) {}
+      }
+      clearThemeOverrides(nextTheme);
+      avatarImg.src = targetImgUrl;
+      return;
+    }
+
+    // Set initial theme progress according to transition start:
+    // Light -> Dark begins at progress 0 (100% light)
+    // Dark -> Light begins at progress 1 (100% dark)
+    const initialProgress = isToDark ? 0 : 1;
+    applyThemeProgress(initialProgress);
+
+    // Safely pause and hide video while seeking to new start frame
+    avatarVideo.style.opacity = '0';
+    avatarVideo.classList.remove('is-playing');
+    try { avatarVideo.pause(); } catch (e) {}
+    // Keep source image visible while seeking
+    avatarImg.src = sourceImgUrl;
+
+    let onTimeUpdate = null;
+    let onEnded = null;
+    let safetyTimer = null;
+
+    function cleanup() {
+      if (onTimeUpdate) {
+        avatarVideo.removeEventListener('timeupdate', onTimeUpdate);
+        onTimeUpdate = null;
+      }
+      if (onEnded) {
+        avatarVideo.removeEventListener('ended', onEnded);
+        onEnded = null;
+      }
+      if (safetyTimer) {
+        clearTimeout(safetyTimer);
+        safetyTimer = null;
+      }
+      if (activeRvfcId !== null && 'cancelVideoFrameCallback' in avatarVideo) {
+        try { avatarVideo.cancelVideoFrameCallback(activeRvfcId); } catch (e) {}
+        activeRvfcId = null;
+      }
+      if (activeRafId !== null) {
+        cancelAnimationFrame(activeRafId);
+        activeRafId = null;
+      }
+    }
+
+    function finishSegment() {
+      if (transitionId !== currentTransitionToken) return;
+
+      try { avatarVideo.pause(); } catch (e) {}
+      cleanup();
+
+      // Ensure final theme state is cleanly committed
+      applyThemeProgress(isToDark ? 1 : 0);
+      clearThemeOverrides(nextTheme);
+
+      // Show destination image, then hide video
+      avatarImg.src = targetImgUrl;
+      if (avatarImg.complete) {
+        avatarVideo.style.opacity = '0';
+        avatarVideo.classList.remove('is-playing');
+      } else {
+        avatarImg.onload = () => {
+          if (transitionId !== currentTransitionToken) return;
+          avatarVideo.style.opacity = '0';
+          avatarVideo.classList.remove('is-playing');
+        };
+      }
+    }
+
+    function updateThemeFromVideo(currentTime) {
+      if (transitionId !== currentTransitionToken) return;
+      // Calculate progress using confirmed Section 5 configuration:
+      // 0 = fully light mode, 1 = fully dark mode
+      const progress = isToDark
+        ? Math.min(1, Math.max(0, currentTime / 5))
+        : Math.min(1, Math.max(0, (10 - currentTime) / 5));
+      applyThemeProgress(progress);
+    }
+
+    prepareVideoStart(avatarVideo, startTime, () => {
+      if (transitionId !== currentTransitionToken) return;
+
+      // Reveal video only after starting frame is decoded & ready
+      avatarVideo.style.opacity = '1';
+      avatarVideo.classList.add('is-playing');
+
+      // Pre-set destination image underneath the video so it's already rendered when video hides
+      avatarImg.src = targetImgUrl;
+
+      // Ensure initial theme matches exact start frame
+      updateThemeFromVideo(startTime);
+
+      // Frame-aware segment stopping and theme synchronization
+      function checkFrame(now, metadata) {
+        if (transitionId !== currentTransitionToken) return;
+
+        const mediaTime = (metadata && typeof metadata.mediaTime === 'number')
+          ? metadata.mediaTime
+          : avatarVideo.currentTime;
+
+        // Synchronize background and theme colors with exact video playback time
+        updateThemeFromVideo(mediaTime);
+
+        const reached = isToDark
+          ? (mediaTime >= endTime || avatarVideo.currentTime >= endTime)
+          : (mediaTime >= endTime - 0.04 || avatarVideo.currentTime >= endTime - 0.04 || avatarVideo.ended);
+
+        if (reached) {
+          finishSegment();
+          return;
+        }
+
+        if ('requestVideoFrameCallback' in avatarVideo) {
+          activeRvfcId = avatarVideo.requestVideoFrameCallback(checkFrame);
+        } else {
+          activeRafId = requestAnimationFrame(() => checkFrame());
+        }
+      }
+
+      if ('requestVideoFrameCallback' in avatarVideo) {
+        activeRvfcId = avatarVideo.requestVideoFrameCallback(checkFrame);
+      } else {
+        activeRafId = requestAnimationFrame(() => checkFrame());
+      }
+
+      onTimeUpdate = () => {
+        if (transitionId !== currentTransitionToken) return;
+        const t = avatarVideo.currentTime;
+        updateThemeFromVideo(t);
+        if (isToDark ? (t >= endTime) : (t >= endTime - 0.04 || avatarVideo.ended)) {
+          finishSegment();
+        }
+      };
+      avatarVideo.addEventListener('timeupdate', onTimeUpdate);
+
+      onEnded = () => {
+        if (transitionId !== currentTransitionToken) return;
+        finishSegment();
+      };
+      avatarVideo.addEventListener('ended', onEnded, { once: true });
+
+      // Fallback timer if animation frames throttle
+      const maxMs = (endTime - startTime) * 1000 + 1500;
+      safetyTimer = setTimeout(() => {
+        if (transitionId === currentTransitionToken) {
+          finishSegment();
+        }
+      }, maxMs);
+
+      const p = avatarVideo.play();
+      if (p !== undefined) {
+        p.catch((err) => {
+          if (transitionId !== currentTransitionToken) return;
+          console.warn("Playback prevented or aborted:", err);
+          if (err.name !== 'AbortError') {
+            avatarVideo.style.opacity = '0';
+            avatarVideo.classList.remove('is-playing');
+            clearThemeOverrides(nextTheme);
+            avatarImg.src = targetImgUrl;
+          }
+        });
+      }
+    });
+  }
+
+  function switchTheme() {
+    const current = html.getAttribute('data-theme') || 'dark';
     const next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+    playTransition(next);
   }
   window.switchTheme = switchTheme;
 
@@ -558,20 +1108,99 @@ img{display:block;max-width:100%}
   goGal(0);
   window.addEventListener('resize', () => goGal(Math.min(galIdx, galTotal())));
 
-  // MODAL LOGIC
+  // MODAL / LIGHTBOX SLIDER LOGIC
+  const galModal = document.getElementById('galModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCounter = document.getElementById('modalCounter');
+  let currentModalIdx = 0;
+
+  function getGalleryList() {
+    return Array.from(document.querySelectorAll('#gal-track .gallery-slide img'));
+  }
+
+  function updateModalImage(idx) {
+    const list = getGalleryList();
+    if (!list.length) return;
+    currentModalIdx = (idx + list.length) % list.length;
+    const target = list[currentModalIdx];
+    if (modalImg) {
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modalImg.src = target.src;
+        modalImg.alt = target.alt || 'Gallery Image';
+        modalImg.style.opacity = '1';
+      }, 60);
+    }
+    if (modalCounter) {
+      modalCounter.textContent = `${currentModalIdx + 1} / ${list.length}`;
+    }
+  }
+
   function openModal(slide) {
+    const list = getGalleryList();
     const img = slide.querySelector('img');
-    if(!img) return;
-    document.getElementById('modalImg').src = img.src;
-    document.getElementById('galModal').classList.add('active');
+    const idx = list.indexOf(img);
+    currentModalIdx = idx >= 0 ? idx : 0;
+    updateModalImage(currentModalIdx);
+    if (galModal) {
+      galModal.classList.add('active');
+    }
     document.body.style.overflow = 'hidden';
   }
-  function closeModal() {
-    document.getElementById('galModal').classList.remove('active');
+
+  function closeModal(e) {
+    if (e && e.target && e.target.closest && (e.target.closest('.modal-box') || e.target.closest('.modal-nav'))) {
+      return;
+    }
+    if (galModal) {
+      galModal.classList.remove('active');
+    }
     document.body.style.overflow = '';
   }
+
+  function modalNav(direction, e) {
+    if (e) {
+      e.stopPropagation();
+    }
+    updateModalImage(currentModalIdx + direction);
+  }
+
   window.openModal = openModal;
   window.closeModal = closeModal;
+  window.modalNav = modalNav;
+
+  // Keyboard navigation for modal slider
+  window.addEventListener('keydown', (e) => {
+    if (!galModal || !galModal.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') {
+      modalNav(-1);
+    } else if (e.key === 'ArrowRight') {
+      modalNav(1);
+    } else if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  // Touch swipe support for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (galModal) {
+    galModal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    galModal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          modalNav(1); // Swipe left -> next
+        } else {
+          modalNav(-1); // Swipe right -> prev
+        }
+      }
+    }, { passive: true });
+  }
 </script>
 </body>
 </html>
